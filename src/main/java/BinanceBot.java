@@ -6,7 +6,7 @@ import com.webcerebrium.binance.api.BinanceApiException;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-// My name is Adam Siedlecki. If you didn't buy this program, please donate me here (BTC address):  1LuR1RcCuXCgfjeUKEpaNjusmEaembnUXT
+// Made by Adam Siedlecki. If you didn't buy this program, please donate me here (BTC address):  1LuR1RcCuXCgfjeUKEpaNjusmEaembnUXT
 public class BinanceBot {
 
     public static SettingsLogic sl;
