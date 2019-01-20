@@ -3,12 +3,12 @@ import LogicComponents.SettingsLogic;
 
 public class CurrentLanguageFabric {
 
-    public static   Messages getCurrentLanguage(){
+    public  Messages getCurrentLanguage(){
         //Default language - in case of error, to protect from null object reference
         Messages messagesObject = new EnglishMessages();
-        if(SettingsLogic.language.equals("Polish"))
+        if(SettingsLogic.getLanguageParameter().equals("Polish"))
             messagesObject = new PolishMessages();
-        else if(SettingsLogic.language.equals("English"))
+        else if(SettingsLogic.getLanguageParameter().equals("English"))
             messagesObject = new EnglishMessages();
 
         return messagesObject;

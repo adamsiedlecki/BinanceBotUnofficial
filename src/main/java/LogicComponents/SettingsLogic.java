@@ -9,12 +9,22 @@ import java.util.Scanner;
 
 public class SettingsLogic {
 
-    public String  secretKey;
-    public static String language ;
+    private String  secretKey;
+    private static String language ;
     private Messages messages;
-    Scanner input;
+    private Scanner input;
+    private CurrentLanguageFabric languageFabric;
 
-    public SettingsLogic(){}
+    public SettingsLogic(){
+        languageFabric = new CurrentLanguageFabric();
+        messages = languageFabric.getCurrentLanguage();
+    }
+    public static String getLanguageParameter(){
+        if(!language.equals(""))
+        return language;
+        else
+            return "LANGUAGE_ERROR";
+    }
 
     public void startSettings(){
 
@@ -57,7 +67,6 @@ public class SettingsLogic {
 
 
     private void welcomeAndSettings(){
-        messages = CurrentLanguageFabric.getCurrentLanguage();
         System.out.println(messages.getWelcome());
         System.out.println(messages.getAskForSecretKey());
         secretKey = input.next();
