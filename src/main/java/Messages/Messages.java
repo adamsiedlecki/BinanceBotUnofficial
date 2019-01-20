@@ -1,10 +1,19 @@
 package Messages;
 
-public abstract class Messages {
-    public static String getBtcLogo() {
+public  interface Messages {
+    static  String getBtcLogo() {
         return btcLogo;
     }
-    private static final  String btcLogo ="                 ,.=ctE55ttt553tzs.,                               \n" +
+    String getWelcome();
+    String getAskForSecretKey();
+    String getYourFreeBitcoins();
+    String getBtcPrice();
+    String getYourFreeUSDT();
+    String getTradingRules();
+    String getFirstMoveQuesion();
+
+    String btcLogo =
+            "                 ,.=ctE55ttt553tzs.,                               \n" +
             "             ,,c5;z==!!::::  .::7:==it3>.,                         \n" +
             "          ,xC;z!::::::    ::::::::::::!=c33x,                      \n" +
             "        ,czz!:::::  ::;;..===:..:::   ::::!ct3.                    \n" +

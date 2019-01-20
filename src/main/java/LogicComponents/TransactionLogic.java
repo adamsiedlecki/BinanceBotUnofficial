@@ -1,3 +1,7 @@
+package LogicComponents;
+
+import LogicComponents.SettingsLogic;
+import BinanceBot.BinanceBot;
 import Messages.EnglishMessages;
 import Messages.PolishMessages;
 import com.google.gson.JsonArray;
@@ -11,9 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -30,6 +32,8 @@ public class TransactionLogic {
     private File textFile;
     private PrintWriter writer;
     private JsonArray balances;
+    private PolishMessages polishMessages = new PolishMessages();
+    private EnglishMessages englishMessages = new EnglishMessages();
     //private BigDecimal lastMovePrice;
 
 
@@ -47,7 +51,7 @@ public class TransactionLogic {
 
              binanceApi = new BinanceApi();
 
-             //binanceApi.secretKey = BinanceBot.sl.secretKey;
+             //binanceApi.secretKey = BinanceBot.BinanceBot.sl.secretKey;
 
 
             binanceApi.apiKey = BinanceBot.myApiKey;
@@ -62,17 +66,17 @@ public class TransactionLogic {
             if(language.equals("Polish")){
 
                 //Prints BTC amount
-                System.out.println(PolishMessages.getYourFreeBitcoins());
+                System.out.println(polishMessages.getYourFreeBitcoins());
                 System.out.println(balances.get(0).getAsJsonObject().get("free"));
 
                 //Prints USDT amount
-                System.out.println(PolishMessages.getYourFreeUSDT());
+                System.out.println(polishMessages.getYourFreeUSDT());
                 System.out.println(balances.get(11).getAsJsonObject().get("free"));
 
                 //Trading logic
-                System.out.println(PolishMessages.getFirstMoveQuesion());
+                System.out.println(polishMessages.getFirstMoveQuesion());
                 lastBTCprice = binanceApi.pricesMap().get("BTCUSDT");
-                System.out.println(PolishMessages.getBtcPrice()+" "+lastBTCprice);
+                System.out.println(polishMessages.getBtcPrice()+" "+lastBTCprice);
                 input = new Scanner(System.in);
                 String in = input.next();
                 while(!in.equals("W")&&!in.equals("w")&&!in.equals("S")&&!in.equals("s")){
@@ -96,17 +100,17 @@ public class TransactionLogic {
             }else if(language.equals("English")){
 
                 //Prints BTC amount
-                System.out.println(EnglishMessages.getYourFreeBitcoins());
+                System.out.println(englishMessages.getYourFreeBitcoins());
                 System.out.println(balances.get(0).getAsJsonObject().get("free"));
 
                 //Prints USDT amount
-                System.out.println(EnglishMessages.getYourFreeUSDT());
+                System.out.println(englishMessages.getYourFreeUSDT());
                 System.out.println(balances.get(11).getAsJsonObject().get("free"));
 
                 //Trading logic
-                System.out.println(EnglishMessages.getFirstMoveQuesion());
+                System.out.println(englishMessages.getFirstMoveQuesion());
                 lastBTCprice = binanceApi.pricesMap().get("BTCUSDT");
-                System.out.println(EnglishMessages.getBtcPrice()+" "+lastBTCprice);
+                System.out.println(englishMessages.getBtcPrice()+" "+lastBTCprice);
                 Scanner input = new Scanner(System.in);
                 String in = input.next();
                 while(!in.equals("R")&&!in.equals("r")&&!in.equals("D")&&!in.equals("d")){

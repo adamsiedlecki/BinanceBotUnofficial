@@ -1,15 +1,22 @@
+package LogicComponents;
+
 import Messages.PolishMessages;
 import Messages.EnglishMessages;
 import Messages.Messages;
+import Messages.CurrentLanguageFabric;
 
 import java.util.Scanner;
 
 public class SettingsLogic {
+
     public String  secretKey;
-    public static String language;
+    public static String language ;
+    private Messages messages;
+    Scanner input;
+
+    public SettingsLogic(){}
+
     public void startSettings(){
-
-
 
         System.out.println(Messages.getBtcLogo());
         System.out.println("If you bought this program, enjoy it. If not, here is my BTC address: 1LuR1RcCuXCgfjeUKEpaNjusmEaembnUXT");
@@ -22,7 +29,7 @@ public class SettingsLogic {
         }
 
         System.out.println("Please select your language: \n P - Polish \n E - English");
-        Scanner input = new Scanner(System.in);
+        input = new Scanner(System.in);
         String in = input.next();
         while(!in.equals("p")&&!in.equals("P")&&!in.equals("e")&&!in.equals("E")){
             System.out.println("Incorrect value! Please enter again such value as: e OR p");
@@ -30,30 +37,30 @@ public class SettingsLogic {
 
         }
 
-
-
-        // Actually I don't got any better idea to write it better; however it is not good way to call same methods two or more times in code.
+        // Actually I don't got any better idea to write it better;  it is not good way to call same methods two or more times in code.
         if(in.equals("P")||in.equals("p")){
             language="Polish";
-             PolishMessages messages = new PolishMessages();
-            System.out.println(messages.getWelcome());
-            System.out.println(messages.getAskForSecretKey());
-            secretKey = input.next();
-
+//             PolishMessages messages = new PolishMessages();
+//            System.out.println(messages.getWelcome());
+//            System.out.println(messages.getAskForSecretKey());
+//            secretKey = input.next();
 
         }else if(in.equals("E")||in.equals("e")){
             language = "English";
-             EnglishMessages messages = new EnglishMessages();
-            System.out.println(messages.getWelcome());
-            System.out.println(messages.getAskForSecretKey());
-            secretKey = input.next();
-
+//             EnglishMessages messages = new EnglishMessages();
+//            System.out.println(messages.getWelcome());
+//            System.out.println(messages.getAskForSecretKey());
+//            secretKey = input.next();
         }
-        
+        welcomeAndSettings();
+    }
 
 
-
-
+    private void welcomeAndSettings(){
+        messages = CurrentLanguageFabric.getCurrentLanguage();
+        System.out.println(messages.getWelcome());
+        System.out.println(messages.getAskForSecretKey());
+        secretKey = input.next();
 
     }
 
