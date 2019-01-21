@@ -1,4 +1,4 @@
-package Messages;
+package messages;
 
 public class PolishMessages implements Messages {
 
@@ -45,8 +45,8 @@ public class PolishMessages implements Messages {
 
 
     private   final String firstMoveQuesion = "Powiedz, na jaką (pierwszą) reakcję rynku ma czekać Bot: \n" +
-            "W - wprowadź W jeśli ma czekać na wzrost \n" +
-            "S - wprowadź S jeśli bot ma sprzedać i czekać na spadek (po czym kupić, gdy spadek nastąpi).";
+            "R - wprowadź R jeśli ma czekać na wzrost \n" +
+            "D - wprowadź D jeśli bot ma sprzedać i czekać na spadek (po czym kupić, gdy spadek nastąpi).";
 
     private   final String welcome = "Witamy. Bot do tradingu w parze  USDT - BTC został uruchomiony.";
 

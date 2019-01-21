@@ -1,7 +1,7 @@
 package BinanceBot;
 
-import LogicComponents.SettingsLogic;
-import LogicComponents.TransactionLogic;
+import logicComponents.SettingsLogic;
+import logicComponents.TransactionLogic;
 
 import java.math.BigDecimal;
 

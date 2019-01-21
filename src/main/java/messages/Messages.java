@@ -1,4 +1,4 @@
-package Messages;
+package messages;
 
 public  interface Messages {
     static  String getBtcLogo() {

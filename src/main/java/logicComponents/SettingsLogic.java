@@ -1,9 +1,7 @@
-package LogicComponents;
+package logicComponents;
 
-import Messages.PolishMessages;
-import Messages.EnglishMessages;
-import Messages.Messages;
-import Messages.CurrentLanguageFabric;
+import messages.Messages;
+import messages.CurrentLanguageFabric;
 
 import java.util.Scanner;
 
@@ -20,10 +18,10 @@ public class SettingsLogic {
         messages = languageFabric.getCurrentLanguage();
     }
     public static String getLanguageParameter(){
-        if(!language.equals(""))
+        if(!"".equals(language))
         return language;
-        else
-            return "LANGUAGE_ERROR";
+        else{
+            return "LANGUAGE_ERROR";}
     }
 
     public void startSettings(){
@@ -41,21 +39,21 @@ public class SettingsLogic {
         System.out.println("Please select your language: \n P - Polish \n E - English");
         input = new Scanner(System.in);
         String in = input.next();
-        while(!in.equals("p")&&!in.equals("P")&&!in.equals("e")&&!in.equals("E")){
+        while(!"p".equals(in)&&!"P".equals(in)&&!"e".equals(in)&&!"E".equals(in)){
             System.out.println("Incorrect value! Please enter again such value as: e OR p");
             in = input.next();
 
         }
 
         // Actually I don't got any better idea to write it better;  it is not good way to call same methods two or more times in code.
-        if(in.equals("P")||in.equals("p")){
+        if("P".equals(in)||"p".equals(in)){
             language="Polish";
 //             PolishMessages messages = new PolishMessages();
 //            System.out.println(messages.getWelcome());
 //            System.out.println(messages.getAskForSecretKey());
 //            secretKey = input.next();
 
-        }else if(in.equals("E")||in.equals("e")){
+        }else if("E".equals(in)||"e".equals(in)){
             language = "English";
 //             EnglishMessages messages = new EnglishMessages();
 //            System.out.println(messages.getWelcome());
