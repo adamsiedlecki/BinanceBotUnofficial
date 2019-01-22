@@ -1,7 +1,7 @@
 package logicComponents;
 
 import messages.Messages;
-import messages.CurrentLanguageFabric;
+import messages.CurrentLanguageFactory;
 
 import java.util.Scanner;
 
@@ -11,10 +11,10 @@ public class SettingsLogic {
     private static String language ;
     private Messages messages;
     private Scanner input;
-    private CurrentLanguageFabric languageFabric;
+    private CurrentLanguageFactory languageFabric;
 
     public SettingsLogic(){
-        languageFabric = new CurrentLanguageFabric();
+        languageFabric = new CurrentLanguageFactory();
         messages = languageFabric.getCurrentLanguage();
     }
     public static String getLanguageParameter(){

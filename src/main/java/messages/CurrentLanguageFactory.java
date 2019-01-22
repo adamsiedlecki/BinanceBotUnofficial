@@ -1,7 +1,7 @@
 package messages;
 import logicComponents.SettingsLogic;
 
-public class CurrentLanguageFabric {
+public class CurrentLanguageFactory {
 
     public  Messages getCurrentLanguage(){
         //Default language - in case of error, to protect from null object reference

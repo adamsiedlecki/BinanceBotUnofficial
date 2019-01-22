@@ -1,10 +1,8 @@
 package logicComponents;
 
 import BinanceBot.BinanceBot;
-import messages.CurrentLanguageFabric;
-import messages.EnglishMessages;
+import messages.CurrentLanguageFactory;
 import messages.Messages;
-import messages.PolishMessages;
 import com.google.gson.JsonArray;
 import com.webcerebrium.binance.api.BinanceApi;
 import com.webcerebrium.binance.api.BinanceApiException;
@@ -33,7 +31,7 @@ public class TransactionLogic {
     private File textFile;
     private PrintWriter writer;
     private JsonArray balances;
-    private CurrentLanguageFabric languageFabric;
+    private CurrentLanguageFactory languageFabric;
     private Messages messages;
     private String in;
     //private BigDecimal lastMovePrice;
@@ -98,7 +96,7 @@ public class TransactionLogic {
 
     private void firstMessagesAndSettings(){
         //Language part:
-        languageFabric = new CurrentLanguageFabric();
+        languageFabric = new CurrentLanguageFactory();
         messages = languageFabric.getCurrentLanguage();
         //Prints BTC amount
         System.out.println(messages.getYourFreeBitcoins());
