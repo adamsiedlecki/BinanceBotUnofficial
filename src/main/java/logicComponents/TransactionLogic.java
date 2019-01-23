@@ -163,7 +163,7 @@ public class TransactionLogic {
             placement.setType(BinanceOrderType.MARKET);
             placement.setPrice(lastBTCprice);
             BigDecimal amountToBuy = getFreeUsdt().divide(lastBTCprice,5) ;
-            placement.setQuantity(amountToBuy.round(new MathContext(6, RoundingMode.HALF_UP))); // buy 10000 of asset for 0.00001 BTC
+            placement.setQuantity(amountToBuy.round(new MathContext(4, RoundingMode.FLOOR))); // buy 10000 of asset for 0.00001 BTC
             BinanceOrder order = binanceApi.getOrderById(symbol, binanceApi.createOrder(placement).get("orderId").getAsLong());
             System.out.println(order.toString());
             writer.println("You made an order: " +order.toString());
@@ -189,8 +189,11 @@ public class TransactionLogic {
             placement.setPrice(lastBTCprice);
             BigDecimal amountToSell = getFreeBitcoins();
 
+            System.out.println(amountToSell);
+            amountToSell = amountToSell.round(new MathContext(4, RoundingMode.FLOOR));
+            System.out.println(amountToSell);
 
-            placement.setQuantity(amountToSell.round(new MathContext(6, RoundingMode.HALF_UP))); // buy 10000 of asset for 0.00001 BTC
+            placement.setQuantity(amountToSell); // buy 10000 of asset for 0.00001 BTC
             BinanceOrder order = binanceApi.getOrderById(symbol, binanceApi.createOrder(placement).get("orderId").getAsLong());
             System.out.println(order.toString());
             writer.println("You made an order with BTC price: "+lastBTCprice+" " +order.toString());
@@ -207,6 +210,7 @@ public class TransactionLogic {
 
             minSellPrice = lastBTCprice.multiply((percentOfUpToSellBTC.add(new BigDecimal(100)).divide(new BigDecimal(100), new MathContext(5))));
             while (true) {
+                System.out.println("Trying to buy SELL BTC with price: "+minSellPrice);
                 if (lastBTCprice.compareTo(minSellPrice) > 0 || lastBTCprice.compareTo(minSellPrice) == 0||firstSellMove) {
                     //sprzedajemy
                     bitcoinSellOrder();
@@ -222,6 +226,7 @@ public class TransactionLogic {
 
             minBuyPrice = lastBTCprice.multiply((new BigDecimal(100).subtract(percentOfDropToBuyBTC)).divide(new BigDecimal(100), new MathContext(5)));
             while (true) {
+                System.out.println("Trying to buy BUY BTC with price: "+minBuyPrice);
                 if (lastBTCprice.compareTo(minBuyPrice) <= 0) {
                     //kupujemy
                     bitcoinBuyOrder();
