@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class TransactionLogic {
-    private  BigDecimal percentOfDropToBuyBTC;
+    private BigDecimal percentOfDropToBuyBTC;
     private BigDecimal percentOfUpToSellBTC;
     private BinanceApi binanceApi;
     private Scanner input;
@@ -37,39 +37,41 @@ public class TransactionLogic {
     //private BigDecimal lastMovePrice;
 
 
-    public TransactionLogic(BigDecimal percentOfDropToBuyBTC,BigDecimal percentOfUpToSellBTC){
+    public TransactionLogic(BigDecimal percentOfDropToBuyBTC, BigDecimal percentOfUpToSellBTC) {
         this.percentOfDropToBuyBTC = percentOfDropToBuyBTC;
         this.percentOfUpToSellBTC = percentOfUpToSellBTC;
 
-            apiConfiguration();
-            logsFileCreation();
-            firstMessagesAndSettings();
+        apiConfiguration();
+        logsFileCreation();
+        firstMessagesAndSettings();
 
-                if("W".equals(in)||"w".equals(in)){
-                    //czekamy
-                    toDrop = false;
+        if ("W".equals(in) || "w".equals(in)) {
+            //czekamy
+            toDrop = false;
 
-                    while(true){
-                        try{tradeAction();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                }else if("S".equals(in)||"s".equals(in)){
-                    //sprzedajemy
-                    toDrop = true;
-                    while(true){
-                        try{tradeAction();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
+            while (true) {
+                try {
+                    tradeAction();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+            }
+        } else if ("S".equals(in) || "s".equals(in)) {
+            //sprzedajemy
+            toDrop = true;
+            while (true) {
+                try {
+                    tradeAction();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
-    private void logsFileCreation(){
+    private void logsFileCreation() {
         try {
-            textFile = new File("TransactionHistory"+ new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date()) +".txt");
+            textFile = new File("TransactionHistory" + new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date()) + ".txt");
             writer = new PrintWriter(textFile);
             writer.println("Logs of BinanceBot:");
         } catch (IOException e) {
@@ -77,7 +79,7 @@ public class TransactionLogic {
         }
     }
 
-    private void apiConfiguration(){
+    private void apiConfiguration() {
         binanceApi = new BinanceApi();
 
         //binanceApi.secretKey = BinanceBot.BinanceBot.sl.secretKey;
@@ -94,7 +96,7 @@ public class TransactionLogic {
         }
     }
 
-    private void firstMessagesAndSettings(){
+    private void firstMessagesAndSettings() {
         //Language part:
         languageFabric = new CurrentLanguageFactory();
         messages = languageFabric.getCurrentLanguage();
@@ -113,14 +115,15 @@ public class TransactionLogic {
         } catch (BinanceApiException e) {
             e.printStackTrace();
         }
-        System.out.println(messages.getBtcPrice()+" "+lastBTCprice);
+        System.out.println(messages.getBtcPrice() + " " + lastBTCprice);
         input = new Scanner(System.in);
         in = input.next();
-        while(!"W".equals(in)&&!"w".equals(in)&&!"S".equals(in)&&!"s".equals(in)){
+        while (!"W".equals(in) && !"w".equals(in) && !"S".equals(in) && !"s".equals(in)) {
             in = input.next();
         }
     }
-    private void lastBTCpriceUpdate(){
+
+    private void lastBTCpriceUpdate() {
         try {
             lastBTCprice = binanceApi.pricesMap().get("BTCUSDT");
         } catch (BinanceApiException e) {
@@ -128,29 +131,30 @@ public class TransactionLogic {
         }
     }
 
-    private void bitcoinBuyOrder(){
+    private void bitcoinBuyOrder() {
         try {
             binanceApi.createOrder(new BinanceOrderPlacement(BinanceSymbol.BTC("USDT"), BinanceOrderSide.BUY));
-            writer.println("You bought "+balances.get(0).getAsJsonObject().get("free")+ " bitcoins with price: "+lastBTCprice);
+            writer.println("You bought " + balances.get(0).getAsJsonObject().get("free") + " bitcoins with price: " + lastBTCprice);
         } catch (BinanceApiException e) {
             e.printStackTrace();
         }
     }
-    private void bitcoinSellOrder(){
+
+    private void bitcoinSellOrder() {
         try {
-            writer.println("You sold "+balances.get(0).getAsJsonObject().get("free")+ " bitcoins with price: "+lastBTCprice);
+            writer.println("You sold " + balances.get(0).getAsJsonObject().get("free") + " bitcoins with price: " + lastBTCprice);
             binanceApi.createOrder(new BinanceOrderPlacement(BinanceSymbol.BTC("USDT"), BinanceOrderSide.SELL));
         } catch (BinanceApiException e) {
             e.printStackTrace();
         }
     }
 
-    private void tradeAction(){
-        if(toDrop){
+    private void tradeAction() {
+        if (toDrop) {
             lastBTCpriceUpdate();
-            minSellPrice = lastBTCprice.multiply((percentOfUpToSellBTC.add(new BigDecimal(100)).divide(new BigDecimal(100),new MathContext(5))));
-            while(true){
-                if(lastBTCprice.compareTo(minSellPrice)>0||lastBTCprice.compareTo(minSellPrice)==0){
+            minSellPrice = lastBTCprice.multiply((percentOfUpToSellBTC.add(new BigDecimal(100)).divide(new BigDecimal(100), new MathContext(5))));
+            while (true) {
+                if (lastBTCprice.compareTo(minSellPrice) > 0 || lastBTCprice.compareTo(minSellPrice) == 0) {
                     //sprzedajemy
                     bitcoinSellOrder();
                     toDrop = false;
@@ -160,15 +164,15 @@ public class TransactionLogic {
 
             }
 
-        }else if(!toDrop){
+        } else if (!toDrop) {
             lastBTCpriceUpdate();
-            minBuyPrice = lastBTCprice.multiply((new BigDecimal(100).subtract(percentOfDropToBuyBTC)).divide(new BigDecimal(100),new MathContext(5)));
-            while(true){
-                if(lastBTCprice.compareTo(minBuyPrice)<=0){
+            minBuyPrice = lastBTCprice.multiply((new BigDecimal(100).subtract(percentOfDropToBuyBTC)).divide(new BigDecimal(100), new MathContext(5)));
+            while (true) {
+                if (lastBTCprice.compareTo(minBuyPrice) <= 0) {
                     //kupujemy
-                   bitcoinBuyOrder();
+                    bitcoinBuyOrder();
                     toDrop = true;
-                   break;
+                    break;
                 }
                 lastBTCpriceUpdate();
             }
