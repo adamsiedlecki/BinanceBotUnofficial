@@ -26,6 +26,12 @@ public class PolishMessages implements Messages {
         return yourFreeBitcoins;
     }
 
+    public String getIncorrectValue() {
+        return incorrectValue;
+    }
+
+    private final String incorrectValue = "Została podana nieprawidłowa wartość. Spróbuj ponownie:";
+
     private final String yourFreeBitcoins = "To jest ilość twoich wolnych Bitcoinów. Pamiętaj, że bot będzie używał ich wszystkich do tradingu!!!:";
 
     private final String btcPrice = "To jest aktualna cena Bitcoina:";

@@ -31,6 +31,13 @@ public class EnglishMessages implements Messages {
         return firstMoveQuesion;
     }
 
+
+    @Override
+    public String getIncorrectValue() {
+        return incorrectValue;
+    }
+
+    private final String incorrectValue = "The value is incorrect. Try again:";
     private final String btcPrice = "This is actual BTC price:";
     private final String yourFreeUSDT = "This is amount of dolars (USDT) that are on your account. Remember, bot will use all free btc for trading!!!:";
     private final String yourFreeBitcoins = "This is amount of Bitcoins that are on your account. Remember, bot will use all free btc for trading!!!:";

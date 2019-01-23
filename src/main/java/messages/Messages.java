@@ -19,6 +19,8 @@ public interface Messages {
 
     String getFirstMoveQuesion();
 
+    String getIncorrectValue();
+
     String btcLogo =
             "                 ,.=ctE55ttt553tzs.,                               \n" +
                     "             ,,c5;z==!!::::  .::7:==it3>.,                         \n" +

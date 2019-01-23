@@ -19,11 +19,7 @@ public class SettingsLogic {
     }
 
     public static String getLanguageParameter() {
-        if (!"".equals(language))
-            return language;
-        else {
-            return "LANGUAGE_ERROR";
-        }
+        return language;
     }
 
     public void startSettings() {
@@ -62,6 +58,7 @@ public class SettingsLogic {
 //            System.out.println(messages.getAskForSecretKey());
 //            secretKey = input.next();
         }
+        messages = languageFabric.getCurrentLanguage();
         welcomeAndSettings();
     }
 
