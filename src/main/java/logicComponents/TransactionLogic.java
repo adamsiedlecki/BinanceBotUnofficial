@@ -176,7 +176,7 @@ public class TransactionLogic {
             BinanceSymbol symbol = BinanceSymbol.USDT("BTC");
             BinanceOrderPlacement placement = new BinanceOrderPlacement(symbol, BinanceOrderSide.BUY);
             placement.setType(BinanceOrderType.MARKET);
-            BigDecimal price = minBuyPrice.round(new MathContext(2, RoundingMode.FLOOR));
+            BigDecimal price = minBuyPrice.setScale(2, RoundingMode.FLOOR);
             placement.setPrice(price);
 
             BigDecimal amountToBuy = getFreeUsdt().divide(lastBTCprice, 4, RoundingMode.FLOOR);
@@ -188,9 +188,9 @@ public class TransactionLogic {
             StandardOutputChanger.closeOutput();
             placement.setQuantity(amountToBuy); // buy 10000 of asset for 0.00001 BTC
             BinanceOrder order = binanceApi.getOrderById(symbol, binanceApi.createOrder(placement).get("orderId").getAsLong());
-            StandardOutputChanger.openOutput();
-            System.out.println(order.toString());
-            StandardOutputChanger.closeOutput();
+//            StandardOutputChanger.openOutput();
+//            System.out.println(order.toString());
+//            StandardOutputChanger.closeOutput();
             writer.println("You made an BUY order using " + amountToBuy + " BTC with price:" + price + order.toString());
             writer.flush();
         } catch (BinanceApiException e) {
