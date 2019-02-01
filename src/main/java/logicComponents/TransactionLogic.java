@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -158,6 +157,11 @@ public class TransactionLogic {
 //    }
 
     private BigDecimal getFreeBitcoins() {
+        try {
+            balances = binanceApi.account().getAsJsonArray("balances");
+        } catch (BinanceApiException e) {
+            e.printStackTrace();
+        }
         return balances.get(0).getAsJsonObject().get("free").getAsBigDecimal();
     }
 
@@ -208,13 +212,14 @@ public class TransactionLogic {
             placement.setPrice(minSellPrice);
             if (firstSellMove) {
                 placement.setPrice(lastBTCprice.setScale(2, RoundingMode.FLOOR));
+                firstSellMove = false;
             }
             BigDecimal amountToSell = getFreeBitcoins();
-            amountToSell = amountToSell.setScale(5, RoundingMode.FLOOR);
+            //amountToSell = amountToSell.setScale(5, RoundingMode.FLOOR);
 //            StandardOutputChanger.openOutput();
 //            System.out.println(amountToSell);
 //            StandardOutputChanger.closeOutput();
-            amountToSell = amountToSell.round(new MathContext(4, RoundingMode.FLOOR));
+            //amountToSell = amountToSell.round(new MathContext(4, RoundingMode.FLOOR));
             System.out.println(amountToSell);
 
             placement.setQuantity(amountToSell.setScale(5, RoundingMode.FLOOR)); // buy 10000 of asset for 0.00001 BTC
@@ -223,7 +228,7 @@ public class TransactionLogic {
             BinanceOrder order = binanceApi.getOrderById(symbol, binanceApi.createOrder(placement).get("orderId").getAsLong());
             System.out.println(order.toString());
             StandardOutputChanger.openOutput();
-            writer.println("You made an order using " + amountToSell + " BTC with price: " + placement.getPrice() + " " + order.toString());
+            writer.println("You made an SELL order using " + amountToSell + " BTC with price: " + placement.getPrice() + " " + order.toString());
             StandardOutputChanger.closeOutput();
             writer.flush();
             //writer.println("You sold " + balances.get(0).getAsJsonObject().get("free") + " bitcoins with price: " + lastBTCprice);
