@@ -1,6 +1,7 @@
 package logicComponents;
 
 import BinanceBot.BinanceBot;
+import Tools.DotWriter;
 import Tools.StandardOutputChanger;
 import com.google.gson.JsonArray;
 import com.webcerebrium.binance.api.BinanceApi;
@@ -25,8 +26,8 @@ public class TransactionLogic {
     private Scanner input;
     private BigDecimal lastBTCprice;
     private boolean toDrop;
-    private BigDecimal minSellPrice;
-    private BigDecimal minBuyPrice;
+    private static BigDecimal minSellPrice;
+    private static BigDecimal minBuyPrice;
     private File textFile;
     private PrintWriter writer;
     private JsonArray balances;
@@ -251,6 +252,14 @@ public class TransactionLogic {
         }
     }
 
+    public static BigDecimal getMinBuyPrice() {
+        return minBuyPrice;
+    }
+
+    public static BigDecimal getMinSellPrice() {
+        return minSellPrice;
+    }
+
     private void dropStrategy() {
 //        BigDecimal sum = new BigDecimal(100).subtract(percentOfDropToBuyBTC);
 //        BigDecimal hundred = new BigDecimal(100);
@@ -271,23 +280,13 @@ public class TransactionLogic {
             return;
         }
         firstSellMove = false;
-        int i = 0;
+
         StandardOutputChanger.openOutput();
         System.out.println("Trying to BUY BTC with price: " + minBuyPrice);
         StandardOutputChanger.closeOutput();
         while (true) {
-            StandardOutputChanger.openOutput();
-            // System.out.println("Trying to BUY BTC with price: "+minBuyPrice);
-            System.out.print(".");
-            sleepASecond();
-            i++;
-            if (i % 80 == 0) {
-                System.out.println(" ");
-                if (i % 800 == 0)
-                    System.out.println("Trying to BUY BTC with price: " + minBuyPrice);
-            }
-            StandardOutputChanger.closeOutput();
 
+            DotWriter.dropDotter();
             if (lastBTCprice.compareTo(minBuyPrice) <= 0) {
 
                 bitcoinBuyOrder();
@@ -295,14 +294,6 @@ public class TransactionLogic {
                 break;
             }
             lastBTCpriceUpdate();
-        }
-    }
-
-    private void sleepASecond() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
@@ -318,26 +309,14 @@ public class TransactionLogic {
 //            bitcoinSellOrder();
 //            firstSellMove = false;
 //        }
-        int i = 0;
+
         StandardOutputChanger.openOutput();
         System.out.println("Trying to SELL BTC with price: " + minSellPrice);
         StandardOutputChanger.closeOutput();
         while (true) {
-            StandardOutputChanger.openOutput();
-//            System.out.println("LAST BTC PRICE:"+lastBTCprice);
-//            System.out.println("PART: "+part);
-//            System.out.println("MINSELLPRICE:"+minSellPrice);
-            System.out.print(".");
-            sleepASecond();
-            i++;
-            if (i % 80 == 0) {
-                System.out.println(" ");
-                if (i % 800 == 0) {
-                    System.out.println("Trying to SELL BTC with price: " + minSellPrice);
-                }
-            }
-            //System.out.println("Trying to SELL BTC with price: "+minSellPrice);
-            StandardOutputChanger.closeOutput();
+
+            DotWriter.riseDotter();
+
             if (lastBTCprice.compareTo(minSellPrice) >= 0) {
                 //sprzedajemy
                 bitcoinSellOrder();
