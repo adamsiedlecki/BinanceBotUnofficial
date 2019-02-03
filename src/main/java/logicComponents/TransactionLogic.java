@@ -24,7 +24,7 @@ public class TransactionLogic {
     private BigDecimal percentOfUpToSellBTC;
     private BinanceApi binanceApi;
     private Scanner input;
-    private BigDecimal lastBTCprice;
+    private static BigDecimal lastBTCprice = new BigDecimal(0);
     private boolean toDrop;
     private static BigDecimal minSellPrice;
     private static BigDecimal minBuyPrice;
@@ -36,6 +36,7 @@ public class TransactionLogic {
     private String in;
     private BigDecimal lastUSDTprice;
     private boolean firstSellMove;
+    private DotWriter dotWriter;
     //private BigDecimal lastMovePrice;
 
 
@@ -46,6 +47,7 @@ public class TransactionLogic {
         StandardOutputChanger.closeOutput();
         apiConfiguration();
         logsFileCreation();
+        dotWriter = new DotWriter();
         firstMessagesAndSettings();
         writer.println("TRADING_BOT LOGS");
         lastBTCpriceUpdate();
@@ -73,6 +75,10 @@ public class TransactionLogic {
                 }
             }
         }
+    }
+
+    public static BigDecimal getCurrentPrice() {
+        return lastBTCprice;
     }
 
     private void logsFileCreation() {
@@ -286,11 +292,12 @@ public class TransactionLogic {
         StandardOutputChanger.closeOutput();
         while (true) {
 
-            DotWriter.dropDotter();
+            dotWriter.dropDotter();
             if (lastBTCprice.compareTo(minBuyPrice) <= 0) {
 
                 bitcoinBuyOrder();
                 toDrop = false;
+                dotWriter.resetDotter();
                 break;
             }
             lastBTCpriceUpdate();
@@ -315,11 +322,12 @@ public class TransactionLogic {
         StandardOutputChanger.closeOutput();
         while (true) {
 
-            DotWriter.riseDotter();
+            dotWriter.riseDotter();
 
             if (lastBTCprice.compareTo(minSellPrice) >= 0) {
                 //sprzedajemy
                 bitcoinSellOrder();
+                dotWriter.resetDotter();
                 toDrop = true;
                 break;
             }
