@@ -20,7 +20,7 @@ public class BinanceBot {
         sl.startSettings();
 
         //Transaction and API connection logic
-        TransactionLogic tl = new TransactionLogic(new BigDecimal(1), new BigDecimal(1));
+        TransactionLogic tl = new TransactionLogic(new BigDecimal(0.5), new BigDecimal(0.5));
 
 
 
