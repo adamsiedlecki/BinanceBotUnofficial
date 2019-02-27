@@ -1,8 +1,8 @@
 package logicComponents;
 
 import BinanceBot.BinanceBot;
-import Tools.DotWriter;
-import Tools.StandardOutputChanger;
+import tools.DotWriter;
+import tools.StandardOutputChanger;
 import com.google.gson.JsonArray;
 import com.webcerebrium.binance.api.BinanceApi;
 import com.webcerebrium.binance.api.BinanceApiException;

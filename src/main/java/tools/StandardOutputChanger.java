@@ -1,4 +1,4 @@
-package Tools;
+package tools;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
