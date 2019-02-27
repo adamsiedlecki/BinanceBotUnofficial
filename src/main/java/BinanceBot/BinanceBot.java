@@ -10,13 +10,13 @@ public class BinanceBot {
 
 
     public static  final String myApiKey = "qKHuQy4exRqiulmq1xbcQCfxwTAGFre3cBVPpZSjvvinOpISgGBbYqcKotYFLyiW";
-
+    public static SettingsLogic sl;
     public static void main(String [] args){
 
 
 
         //Language and secret key settings
-        SettingsLogic sl = new SettingsLogic();
+        sl = new SettingsLogic();
         sl.startSettings();
 
         //Transaction and API connection logic

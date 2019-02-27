@@ -44,6 +44,10 @@ public class TransactionLogic {
         this.percentOfDropToBuyBTC = percentOfDropToBuyBTC;
         this.percentOfUpToSellBTC = percentOfUpToSellBTC;
 
+        //Language part:
+        languageFabric = new CurrentLanguageFactory();
+        messages = languageFabric.getCurrentLanguage();
+
         StandardOutputChanger.closeOutput();
         apiConfiguration();
         logsFileCreation();
@@ -93,28 +97,37 @@ public class TransactionLogic {
     }
 
     private void apiConfiguration() {
-        binanceApi = new BinanceApi();
+            binanceApi = new BinanceApi();
 
-        //binanceApi.secretKey = BinanceBot.BinanceBot.sl.secretKey;
+            boolean isCorrect = false;
+            while(!isCorrect) {
+                try {
+                    binanceApi.apiKey = BinanceBot.myApiKey;
+                    binanceApi.secretKey = BinanceBot.sl.getSecretKey();
+                    balances = binanceApi.account().getAsJsonArray("balances");
+                } catch (BinanceApiException e) {
+                    StandardOutputChanger.openOutput();
+                    System.out.println(messages.getIncorrectValue());
+                    StandardOutputChanger.closeOutput();
+                    BinanceBot.sl.askForSecretKey();
+                    continue;
+                } catch (Exception e) {
+                    StandardOutputChanger.openOutput();
+                    System.out.println(messages.getIncorrectValue());
+                    StandardOutputChanger.closeOutput();
+                    BinanceBot.sl.askForSecretKey();
+                    continue;
+                }
+                isCorrect=true;
+            }
 
-        binanceApi.apiKey = BinanceBot.myApiKey;
 
-        //Tymczasowe - wywal po ukończeniu testów!!!
-        binanceApi.secretKey = "Erpd0BxHlqKG01SxAGpDi3NL2xCHkx7ytQdfDmvbHbgemh33fwgxHbjDK5Mdry6i";
-
-        try {
-            balances = binanceApi.account().getAsJsonArray("balances");
-        } catch (BinanceApiException e) {
-            e.printStackTrace();
-        }
     }
 
     private void firstMessagesAndSettings() {
         StandardOutputChanger.openOutput();
 
-        //Language part:
-        languageFabric = new CurrentLanguageFactory();
-        messages = languageFabric.getCurrentLanguage();
+
 
         //Prints trading rules:
         System.out.println(messages.getTradingRules());

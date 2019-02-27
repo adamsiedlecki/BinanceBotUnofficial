@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class SettingsLogic {
 
-    private String secretKey;
+    private static String secretKey;
     private static String language;
     private Messages messages;
     private Scanner input;
@@ -59,15 +59,19 @@ public class SettingsLogic {
 //            secretKey = input.next();
         }
         messages = languageFabric.getCurrentLanguage();
-        welcomeAndSettings();
+        System.out.println(messages.getWelcome());
+        askForSecretKey();
     }
 
 
-    private void welcomeAndSettings() {
-        System.out.println(messages.getWelcome());
+     void askForSecretKey() {
+
         System.out.println(messages.getAskForSecretKey());
         secretKey = input.next();
 
     }
 
+      String getSecretKey() {
+        return secretKey;
+    }
 }
