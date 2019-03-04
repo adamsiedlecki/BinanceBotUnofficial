@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class BinanceBot {
 
 
-    public static  final String myApiKey = "qKHuQy4exRqiulmq1xbcQCfxwTAGFre3cBVPpZSjvvinOpISgGBbYqcKotYFLyiW";
+    public static  final String myApiKey = "VsXBkB0yOTC62N35kg7jS5z2PtueMbauX9EIVDBlEwq00QP6WEROjSWkqSSYcXus";
     public static SettingsLogic sl;
     public static void main(String [] args){
 
